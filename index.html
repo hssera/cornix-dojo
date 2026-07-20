@@ -818,10 +818,10 @@
   </div>
   <div class="keymap-bar">
     <span class="ctrl-label">キーマップ</span>
-    <div id="status">内蔵キーマップ表示中</div>
+    <div id="status">サンプルキーマップ表示中（QWERTY）</div>
     <button id="btnConnect" class="primary">Cornixから読み取る</button>
     <button id="btnVil">.vilを開く</button>
-    <button id="btnForget" title="保存したレイアウトを消して内蔵キーマップに戻す" hidden>保存を消す</button>
+    <button id="btnForget" title="保存したレイアウトを消してサンプル表示に戻す" hidden>保存を消す</button>
     <input type="file" id="vilFile" accept=".vil,application/json" hidden>
   </div>
   <details class="note-fold">
@@ -830,7 +830,7 @@
     ・<b>読み取り方法:</b> CornixをUSBケーブルで接続し「Cornixから読み取る」を押してください（Chrome / Edge、WebHID対応ブラウザが必要）。Bluetooth接続中は読み取れない場合があります。<br>
     ・うまく読み取れない場合は <a href="https://vial.rocks" target="_blank" rel="noopener">Vial</a> でエクスポートした <code>.vil</code> ファイルをこのページにドラッグ＆ドロップしてください。<br>
     ・日本語ローマ字モードでは IME（日本語入力）を<b>オフ</b>にしてください。ローマ字は ヘボン式/訓令式 どちらでも入力できます。<br>
-    ・既定では自分の <code>cornix-default-keymap.vil</code> を内蔵表示しています。キーマップを変更したら「Cornixから読み取る」か .vil の読み込みで更新してください。<br>
+    ・既定はサンプル（QWERTY）です。「Cornixから読み取る」か .vil の読み込みで自分のキーマップになり、ブラウザに保存されて次回から自動復元されます。<br>
     ・キーボード表示は入力に合わせて自動でレイヤーが切り替わります。L0〜のタブで手動切替もできます。<br>
     ・<b>苦手キー</b>モードは、これまでのプレイでミスが多かったキーを重点的に出題します。<br>
     ・<b>WPM</b> は Words Per Minute（1分あたりの単語数）。タイピングの慣習で「5打鍵＝1単語」として換算した速度の指標です。目安: 20〜30で日常使いに十分、40以上で速い、60以上で上級者。<br>
@@ -1128,107 +1128,47 @@ function parseVil(s) {
 
 const KB = { layers: [], layerCount: 0, source: "sample", label: "" };
 
-// 内蔵キーマップ — 自分の Vial エクスポート (cornix-default-keymap.vil) をそのまま埋め込み。
-// 初回アクセスから自分の配列で練習できる。接続読み取り / .vil 読み込みで上書き可能。
+// サンプルキーマップ（汎用QWERTY・4レイヤー）
+// 「Cornixから読み取る」または .vil 読み込みで自分のキーマップに置き換わる（ブラウザに保存・自動復元）。
 const DEFAULT_VIL_LAYOUT = [
-  [ // L0
+  [ // L0 — QWERTY
     ["KC_TAB","KC_Q","KC_W","KC_E","KC_R","KC_T",-1],
-    ["KC_CAPSLOCK","KC_A","KC_S","KC_D","KC_F","KC_G",-1],
-    ["KC_LSHIFT","KC_Z","KC_X","KC_C","KC_V","KC_B","KC_MUTE"],
-    ["KC_LCTRL","KC_LGUI","KC_LALT","MO(1)","MO(3)","KC_SPACE",-1],
-    ["KC_BSPACE","KC_P","KC_O","KC_I","KC_U","KC_Y",-1],
-    ["KC_ENTER","KC_BSLASH","KC_L","KC_K","KC_J","KC_H","KC_BTN3"],
-    ["KC_SLASH","KC_UP","KC_DOT","KC_COMMA","KC_M","KC_N",-1],
-    ["KC_RIGHT","KC_DOWN","KC_LEFT","MO(2)","MO(4)","KC_SPACE",-1]
+    ["KC_LCTL","KC_A","KC_S","KC_D","KC_F","KC_G",-1],
+    ["KC_LSFT","KC_Z","KC_X","KC_C","KC_V","KC_B","KC_DEL"],
+    ["KC_LGUI","KC_LALT","MO(3)","MO(1)","KC_SPC","KC_ESC",-1],
+    ["KC_BSPC","KC_P","KC_O","KC_I","KC_U","KC_Y",-1],
+    ["KC_QUOT","KC_SCLN","KC_L","KC_K","KC_J","KC_H","KC_ENT"],
+    ["KC_RSFT","KC_SLSH","KC_DOT","KC_COMM","KC_M","KC_N",-1],
+    ["KC_RCTL","KC_RGUI","KC_RALT","KC_BSPC","MO(2)","KC_ENT",-1]
   ],
-  [ // L1
-    ["KC_ESCAPE","KC_1","KC_2","KC_3","KC_4","KC_5",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_SCOLON","KC_MINUS",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_DELETE","KC_0","KC_9","KC_8","KC_7","KC_6",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_QUOTE","KC_EQUAL","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
+  [ // L1 — 数字・ナビ
+    ["KC_TAB","KC_1","KC_2","KC_3","KC_4","KC_5",-1],
+    ["KC_LCTL","KC_F1","KC_F2","KC_F3","KC_F4","KC_F5",-1],
+    ["KC_LSFT","KC_F6","KC_F7","KC_F8","KC_F9","KC_F10","KC_DEL"],
+    ["KC_LGUI","KC_LALT","KC_TRNS","KC_TRNS","KC_SPC","KC_ESC",-1],
+    ["KC_BSPC","KC_0","KC_9","KC_8","KC_7","KC_6",-1],
+    ["KC_END","KC_HOME","KC_RGHT","KC_UP","KC_DOWN","KC_LEFT","KC_ENT"],
+    ["KC_RSFT","KC_INS","KC_F12","KC_F11","KC_PGUP","KC_PGDN",-1],
+    ["KC_TRNS","KC_TRNS","KC_TRNS","KC_BSPC","MO(2)","KC_ENT",-1]
   ],
-  [ // L2
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["USER00","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["USER01","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["USER02","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
+  [ // L2 — 記号
+    ["KC_GRV","KC_EXLM","KC_AT","KC_HASH","KC_DLR","KC_PERC",-1],
+    ["KC_LCTL","KC_EQL","KC_MINS","KC_PLUS","KC_LCBR","KC_RCBR",-1],
+    ["KC_LSFT","KC_TILD","KC_UNDS","KC_PIPE","KC_LBRC","KC_RBRC","KC_DEL"],
+    ["KC_LGUI","KC_LALT","KC_TRNS","MO(1)","KC_SPC","KC_ESC",-1],
+    ["KC_BSPC","KC_RPRN","KC_LPRN","KC_ASTR","KC_AMPR","KC_CIRC",-1],
+    ["KC_GRV","KC_SCLN","KC_COLN","KC_DQUO","KC_QUOT","KC_BSLS","KC_ENT"],
+    ["KC_RSFT","KC_DOT","KC_SLSH","KC_QUES","KC_RABK","KC_LABK",-1],
+    ["KC_TRNS","KC_TRNS","KC_TRNS","KC_BSPC","KC_TRNS","KC_ENT",-1]
   ],
-  [ // L3
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["USER00","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["USER01","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["USER02","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
-  ],
-  [ // L4
+  [ // L3 — テンキー
     ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
     ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
-  ],
-  [ // L5
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
-  ],
-  [ // L6
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
-  ],
-  [ // L7
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
-  ],
-  [ // L8
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
-  ],
-  [ // L9
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_MUTE"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_BTN3"],
-    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1],
+    ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO"],
+    ["KC_NO","KC_NO","KC_TRNS","KC_NO","KC_NO","KC_NO",-1],
+    ["KC_NO","KC_PMNS","KC_P9","KC_P8","KC_P7","KC_NO",-1],
+    ["KC_NO","KC_PPLS","KC_P6","KC_P5","KC_P4","KC_NO","KC_P0"],
+    ["KC_NO","KC_PDOT","KC_P3","KC_P2","KC_P1","KC_NO",-1],
     ["KC_NO","KC_NO","KC_NO","KC_NO","KC_NO","KC_NO",-1]
   ]
 ];
@@ -1241,7 +1181,7 @@ function setKeymap(layers, source, label, restored) {
   buildLayerTabs();
   setViewLayer(0);
   const st = $("status");
-  if (source === "sample") { st.className = ""; st.textContent = "内蔵キーマップ表示中（" + layers.length + "レイヤー）"; }
+  if (source === "sample") { st.className = ""; st.textContent = "サンプルキーマップ表示中（QWERTY）"; }
   else {
     st.className = "ok";
     st.textContent = "✓ " + label + "（" + layers.length + "レイヤー）" + (restored ? " · 前回のキーマップを復元" : "");
