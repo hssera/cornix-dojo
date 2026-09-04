@@ -425,6 +425,13 @@
 
   /* ---- keyboard (same panel, below the typing area) ---- */
   .kb-zone { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
+  /* キーボード非表示（暗記練習）: 盤面・凡例・外観は畳み、キーマップ行とヒントは残す */
+  .kb-zone.kb-hidden .kb-head,
+  .kb-zone.kb-hidden #kbwrap,
+  .kb-zone.kb-hidden .legend,
+  .kb-zone.kb-hidden .appearance-bar,
+  .kb-zone.kb-hidden .paint-bar { display: none; }
+  .kb-zone.kb-hidden .keymap-bar { margin-top: 0; padding-top: 0; border-top: none; }
   .keymap-bar, .appearance-bar {
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line-soft);
@@ -763,6 +770,7 @@
       <div class="settings-btns">
         <button id="btnSound" class="switch" role="switch" aria-checked="true" title="効果音のON/OFF"><span class="sw-txt">効果音</span><span class="sw-track"><span class="sw-thumb"></span></span></button>
         <button id="btnGuide" class="switch" role="switch" aria-checked="true" title="キーガイド（ハイライトとヒント）のON/OFF"><span class="sw-txt">キーガイド</span><span class="sw-track"><span class="sw-thumb"></span></span></button>
+        <button id="btnKb" class="switch" role="switch" aria-checked="true" title="キーボード表示のON/OFF。見ないで打つ練習に"><span class="sw-txt">キーボード</span><span class="sw-track"><span class="sw-thumb"></span></span></button>
       </div>
     </div>
   </div>
@@ -782,7 +790,7 @@
   <div id="queue" class="mono"></div>
   <button id="btnEndFree" hidden>フリー練習を終了して結果を見る</button>
 
-  <div class="kb-zone">
+  <div class="kb-zone" id="kbZone">
   <div class="kb-head">
     <div class="title">キーボード</div>
     <button id="btnHeat" title="これまでのミスの分布をキーボード上に表示（データがない場合は何も表示されません）">ミス分布</button>
@@ -2862,6 +2870,22 @@ $("btnGuide").addEventListener("click", () => {
   updateGuideBtn();
   engine.refreshHint();
 });
+/* キーボード表示のON/OFF */
+let kbVisible = store.get("cornixKbShow") !== "0";
+function applyKbVisible() {
+  $("kbZone").classList.toggle("kb-hidden", !kbVisible);
+  $("btnKb").setAttribute("aria-checked", String(kbVisible));
+}
+$("btnKb").addEventListener("click", () => {
+  kbVisible = !kbVisible;
+  store.set("cornixKbShow", kbVisible ? "1" : "0");
+  if (!kbVisible) {                       // 畳むときは編集系の状態も閉じる
+    if (paintMode) setPaintMode(false);
+    if (heatmapOn) { heatmapOn = false; applyHeatmap(); }
+  }
+  applyKbVisible();
+});
+applyKbVisible();
 
 /* ---- colorway (Cornix body colour) ---- */
 const COLORWAYS = ["silver", "black", "green", "orange"];
