@@ -317,7 +317,11 @@
     font-family: var(--mono); font-weight: 500; font-size: 14px;
     pointer-events: none; animation: rise-pop .9s var(--ease) forwards;
   }
-  @keyframes rise-pop { to { transform: translate(-50%, -24px); opacity: 0; } }
+  .bonus-pop.big {
+    font-size: 17px; font-weight: 500; color: var(--accent-deep);
+    white-space: nowrap; animation-duration: 1.3s;
+  }
+  @keyframes rise-pop { to { transform: translate(-50%, -28px); opacity: 0; } }
   /* プレイ中はツールバーを減光して集中を促す（誤クリック防止も兼ねる） */
   #toolbar { transition: opacity .3s var(--ease); }
   #toolbar.dimmed { opacity: .3; pointer-events: none; }
@@ -2269,6 +2273,18 @@ const audio = {
         this.tone(784, 0.12, "sine", 0.12, 0.12);
         this.tone(1046.5, 0.12, "sine", 0.12, 0.24);
         this.tone(1318.5, 0.3, "sine", 0.12, 0.36);
+      } else if (kind === "combo50") {     // 50コンボ節目: 明るい上昇アルペジオ
+        this.tone(1046.5, 0.09, "sine", 0.13);
+        this.tone(1318.5, 0.09, "sine", 0.13, 0.08);
+        this.tone(1568, 0.09, "sine", 0.13, 0.16);
+        this.tone(2093, 0.22, "sine", 0.13, 0.24);
+      } else if (kind === "combo100") {    // 100コンボごとの大節目: ファンファーレ＋和音
+        this.tone(784, 0.1, "sine", 0.12);
+        this.tone(987.8, 0.1, "sine", 0.12, 0.09);
+        this.tone(1174.7, 0.1, "sine", 0.12, 0.18);
+        this.tone(1568, 0.12, "sine", 0.13, 0.27);
+        this.tone(2093, 0.4, "sine", 0.14, 0.38);
+        this.tone(1046.5, 0.4, "sine", 0.07, 0.38);
       } else if (kind === "record") {      // NEW RECORD ファンファーレ
         this.tone(587.3, 0.1, "sine", 0.13);
         this.tone(784, 0.1, "sine", 0.13, 0.1);
@@ -2514,13 +2530,17 @@ const engine = {
     const hk = ch ? findKeyForChar(ch) : null;
     const holds = hk ? (hk.layerKey ? 1 : 0) + (hk.shiftKey ? 1 : 0) : 0;
     this.score += Math.round((10 + 15 * holds) * mult);
-    if (mult > prevMult) {          // 倍率が上がった瞬間を演出
+    // 50コンボごとの節目（コンボ＝ノーミス連続数）と倍率アップを演出
+    const milestone = this.combo > 0 && this.combo % 50 === 0;
+    if (milestone || mult > prevMult) {
       const pop = document.createElement("span");
-      pop.className = "bonus-pop";
-      pop.textContent = "×" + mult.toFixed(1);
+      pop.className = "bonus-pop" + (milestone ? " big" : "");
+      pop.textContent = milestone
+        ? this.combo + "コンボ!" + (mult > prevMult ? " ×" + mult.toFixed(1) : "")
+        : "×" + mult.toFixed(1);
       $("stComboWrap").appendChild(pop);
-      setTimeout(() => pop.remove(), 900);
-      audio.play("bonus");
+      setTimeout(() => pop.remove(), milestone ? 1300 : 900);
+      audio.play(milestone ? (this.combo % 100 === 0 ? "combo100" : "combo50") : "bonus");
     } else audio.play("type");
     if (ch) flashKey(ch);
   },
