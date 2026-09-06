@@ -1807,7 +1807,50 @@ const EN_WORDS = ("air also apple arm art autumn bake band bird blue boat bone b
   "trophy tropical trout trumpet tulip tumble tunnel turtle tutor tweed twelve twilight umbrella unique unit upper " +
   "urban useful usual valley value vanilla vapor velvet vendor verse vessel victory viewer village vinyl violet " +
   "vision vivid vocal volume voyage waffle wagon walnut wander warden warmth weekend welcome whisper widget willow " +
-  "window winter wisdom wonder wooden worker workshop woven yellow yield zebra zenith zigzag zipper").split(/\s+/);
+  "window winter wisdom wonder wooden worker workshop woven yellow yield zebra zenith zigzag zipper able absorb " +
+  "accent accept access account across active actor adapt address adjust admire admit adopt adult advance advice " +
+  "afford afraid agent agree ahead alarm album alert alike alive allow almond alone aloud alpha alter always amaze " +
+  "amber among amount amuse angle angry ankle answer antique apart appeal appear apply approve apricot apron arcade " +
+  "arch arena argue arise armor aroma around arrange arrive arrow aside aspect assist assume athlete atlas atom " +
+  "attach attack attend attic auction audio author avenue avocado avoid awake award aware axis bacon badge balance " +
+  "balcony bamboo banana banner barley barn barrel basil basin batch bath battery beach bead beam bean bear beard " +
+  "beast beat bee beef beetle before begin behave behind belief bell belong below belt bench bend benefit berry " +
+  "beside beware bike bill bind biology birch birth biscuit bison bite blade blame blank blast blaze blend bless " +
+  "blind blink block bloom blouse blow board boast bold bolt bond bonus boost boot bore borrow boss bother bounce " +
+  "bound bow bracket brave break breath brew brief brim bring brisk broad bronze brook broom budget bulb bulk " +
+  "bull bump bunch burden burn burst bush busy buzz cabin cage calf call camel canal cancel candy cane canoe canyon " +
+  "capable capture care cargo carrot carry cart carve cash cast catch cattle cause caution cave cedar ceiling " +
+  "cell cellar cent cereal chain chair chalk chance chant charge charm chart chase cheap check cheek cheer chef " +
+  "chest chew chief child chill chin choice choose chop chord chunk churn cider cinema cinnamon citizen civil " +
+  "claim clam clap clash clasp class claw clean clear clerk click client cliff climb cling clinic cloak clock " +
+  "clone close closet cloth clown club clue clutch coach coal cocoa coconut coil collar college colony comb come " +
+  "comedy comfort comic command comment commit compare compete complete concept concert conduct cone confirm connect " +
+  "consider contact contain contest control convert cord core cork cost cottage couch cough could count couple " +
+  "courage course court cover cozy crab crack craft crane crash crate crawl cream create creek crew crisp critic " +
+  "crop cross crowd crown crumb crunch crush crust cube cuddle cuff culture curb cure curious curl curry curve " +
+  "custom cute cylinder daisy dance dare dart dash date deal dear debut decide deer defend define delay delight " +
+  "deliver demand dense dentist deposit describe deserve dessert detect develop devote dew dial diamond diary " +
+  "dice diet differ dig digest digit dime dine direct dirt discuss display distance dive dock doctor dodge doll " +
+  "dome donate donkey dot doubt dough dove drag drain drama draw dress drift drill drink drip drive drop dry duck " +
+  "due dull dune during dusk duty dwell each earn east echo eclipse edit eel effect egg elastic elect elegant " +
+  "element elephant elite else ember emblem emerge emotion employ enable end endless enemy engage enrich enter " +
+  "entry envelope envy equip era erase errand error essay estimate evolve exam excel except excuse exhibit exit " +
+  "expect expense explain explore express extend extra fable fair faith fake false fame fan fare fashion fasten " +
+  "fate fault favor fear feast feed fence fetch fever fiddle fig fin find firm fish fit fix flake flash flask " +
+  "fleece flesh flick flight fling flint flip float flock flood floor fluff flush foam foil folk follow fond force " +
+  "forge fortune forward found fox fragile freckle free freeze fridge fringe front fry fuel fund funny fur gain " +
+  "gap garage gas gaze gear gem gene gesture ghost giant giggle give glad glide glimpse glitter globe glory glove " +
+  "glue goat gone good goods gorge gossip gourd govern gown grab grade grand grant grasp grass great greet grief " +
+  "grill grin grip groan groom groove ground grove guard guest guide gulf gum gust hail hall halt handle hang " +
+  "happy harm hash haste hatch haul hawk hay hazard haze head heal heap hear hedge heel height hello help herb " +
+  "hero hide high hike hire hit hobby hold hole hood hoof hop horse host hour house hug huge hum humor hunt hurry " +
+  "hut ice icon idle imagine impress inch income indeed index infant inform inject injure inn input insist inspect " +
+  "instant intend invent invite issue item jam jar jaw jean jog joke jolly journal journey joy judge jug juice " +
+  "jumbo junk jury just keep kelp kick kid kiln kiss kit knack knead kneel knob knock knot know label lace lack " +
+  "lady lag lamb lame lane lap large lark last latch late laundry lava lawn lazy lead leak lean leap learn lease " +
+  "leash least leather leave ledge left leg lend length less lesson let lever lid lift light like limb limit lint " +
+  "lip lit live load loaf loan lobby lodge loft lone look loose lord lose loss lot loud lounge low loyal luck " +
+  "lull lump lung lure lush luxury").split(/\s+/);
 const EN_SENTS = [
   "Small hands rest on the home row.",
   "Each layer hides a new set of keys.",
@@ -1940,7 +1983,76 @@ const JP_WORDS = [
   ["あけがた","明け方"],["ひるさがり","昼下がり"],["たそがれ","黄昏"],["まよなか","真夜中"],
   ["いっしゅん","一瞬"],["えいえん","永遠"],["きせつ","季節"],["しゅんかん","瞬間"],
   ["おもいで","思い出"],["ゆめ","夢"],["きぼう","希望"],["ちょうせん","挑戦"],
-  ["せいちょう","成長"],["どりょく","努力"],["しゅうかん","習慣"],["もくひょう","目標"]
+  ["せいちょう","成長"],["どりょく","努力"],["しゅうかん","習慣"],["もくひょう","目標"],
+  ["ばすけっとぼーる","バスケットボール"],["ばれーぼーる","バレーボール"],["てにす","テニス"],["ばどみんとん","バドミントン"],
+  ["らぐびー","ラグビー"],["まらそん","マラソン"],["すきー","スキー"],["すのーぼーど","スノーボード"],
+  ["すけーと","スケート"],["さーふぃん","サーフィン"],["ぼるだりんぐ","ボルダリング"],["よが","ヨガ"],
+  ["だんす","ダンス"],["ごるふ","ゴルフ"],["ぼうりんぐ","ボウリング"],["たっきゅう","卓球"],
+  ["ちーず","チーズ"],["ばたー","バター"],["よーぐると","ヨーグルト"],["ぱん","パン"],
+  ["くろわっさん","クロワッサン"],["ばげっと","バゲット"],["どーなつ","ドーナツ"],["まかろん","マカロン"],
+  ["じぇらーと","ジェラート"],["たると","タルト"],["しゅーくりーむ","シュークリーム"],["もんぶらん","モンブラン"],
+  ["てぃらみす","ティラミス"],["ぱふぇ","パフェ"],["すむーじー","スムージー"],["ここあ","ココア"],
+  ["らて","ラテ"],["えすぷれっそ","エスプレッソ"],["かぷちーの","カプチーノ"],["れもねーど","レモネード"],
+  ["みねすとろーね","ミネストローネ"],["りぞっと","リゾット"],["ぱえりあ","パエリア"],["たぴおか","タピオカ"],
+  ["どらむ","ドラム"],["べーす","ベース"],["しんせさいざー","シンセサイザー"],["おーけすとら","オーケストラ"],
+  ["めろでぃー","メロディー"],["りずむ","リズム"],["てんぽ","テンポ"],["こーらす","コーラス"],
+  ["そふぁー","ソファー"],["かーてん","カーテン"],["らんぷ","ランプ"],["てーぶる","テーブル"],
+  ["はんがー","ハンガー"],["ばすけっと","バスケット"],["ぶらんけっと","ブランケット"],["くっしょん","クッション"],
+  ["まぐかっぷ","マグカップ"],["たんぶらー","タンブラー"],["ぼとる","ボトル"],["らんちぼっくす","ランチボックス"],
+  ["えぷろん","エプロン"],["すぽんじ","スポンジ"],["もっぷ","モップ"],["ばけつ","バケツ"],
+  ["ほうき","箒"],["ちりとり","ちり取り"],["ぱそこん","パソコン"],["たぶれっと","タブレット"],
+  ["すまほ","スマホ"],["あぷり","アプリ"],["うぇぶさいと","ウェブサイト"],["ぶろぐ","ブログ"],
+  ["めーる","メール"],["ぱすわーど","パスワード"],["あかうんと","アカウント"],["くらうど","クラウド"],
+  ["さーばー","サーバー"],["でーたべーす","データベース"],["ぷろぐらむ","プログラム"],["こーど","コード"],
+  ["でばっぐ","デバッグ"],["あるごりずむ","アルゴリズム"],["ぴくせる","ピクセル"],["ふぉんと","フォント"],
+  ["でざいん","デザイン"],["れいあうと","レイアウト"],["あいこん","アイコン"],["かーそる","カーソル"],
+  ["すくりーん","スクリーン"],["しょーとかっと","ショートカット"],["こぴぺ","コピペ"],["ばっくあっぷ","バックアップ"],
+  ["いんすとーる","インストール"],["あっぷでーと","アップデート"],["ろぐいん","ログイン"],["おんらいん","オンライン"],
+  ["りもーとわーく","リモートワーク"],["みーてぃんぐ","ミーティング"],["ぷれぜん","プレゼン"],["たすく","タスク"],
+  ["すけじゅーる","スケジュール"],["ぷろじぇくと","プロジェクト"],["ちーむ","チーム"],["ふぃーどばっく","フィードバック"],
+  ["くしゃみ","くしゃみ"],["あくび","あくび"],["ためいき","ため息"],["まばたき","瞬き"],
+  ["せのび","背伸び"],["しんこきゅう","深呼吸"],["おととい","一昨日"],["あさって","明後日"],
+  ["しあさって","明々後日"],["ゆうがた","夕方"],["しょうご","正午"],["へいじつ","平日"],
+  ["しゅくじつ","祝日"],["きゅうじつ","休日"],["ねんまつ","年末"],["ねんし","年始"],
+  ["つきひ","月日"],["かぞく","家族"],["りょうしん","両親"],["きょうだい","兄弟"],
+  ["しまい","姉妹"],["いとこ","従兄弟"],["まご","孫"],["おじいちゃん","おじいちゃん"],
+  ["おばあちゃん","おばあちゃん"],["こくご","国語"],["さんすう","算数"],["りか","理科"],
+  ["しゃかい","社会"],["たいいく","体育"],["ずこう","図工"],["えいご","英語"],
+  ["れきし","歴史"],["ちり","地理"],["すうがく","数学"],["かがく","科学"],
+  ["じっけん","実験"],["かんさつ","観察"],["はっぴょう","発表"],["ふくしゅう","復習"],
+  ["よしゅう","予習"],["おんがくしつ","音楽室"],["しょうてんがい","商店街"],["やおや","八百屋"],
+  ["にくや","肉屋"],["さかなや","魚屋"],["はなや","花屋"],["ほんや","本屋"],
+  ["くすりや","薬屋"],["びよういん","美容院"],["とこや","床屋"],["せんとう","銭湯"],
+  ["じんじゃ","神社"],["おてら","お寺"],["こうばん","交番"],["しやくしょ","市役所"],
+  ["ゆうえんち","遊園地"],["どうぶつえん","動物園"],["すいぞくかん","水族館"],["びじゅつかん","美術館"],
+  ["はくぶつかん","博物館"],["かんらんしゃ","観覧車"],["めりーごーらんど","メリーゴーランド"],["よろこび","喜び"],
+  ["かなしみ","悲しみ"],["おどろき","驚き"],["いかり","怒り"],["たのしみ","楽しみ"],
+  ["やすらぎ","安らぎ"],["ときめき","ときめき"],["わくわく","わくわく"],["どきどき","どきどき"],
+  ["にこにこ","にこにこ"],["きらきら","きらきら"],["ふわふわ","ふわふわ"],["さらさら","さらさら"],
+  ["もちもち","もちもち"],["ぱりぱり","ぱりぱり"],["しっとり","しっとり"],["ひらく","開く"],
+  ["とじる","閉じる"],["おす","押す"],["ひく","引く"],["もつ","持つ"],
+  ["はこぶ","運ぶ"],["ならべる","並べる"],["かたづける","片付ける"],["みがく","磨く"],
+  ["あらう","洗う"],["ほす","干す"],["たたむ","畳む"],["ぬう","縫う"],
+  ["はる","貼る"],["まぜる","混ぜる"],["やく","焼く"],["にる","煮る"],
+  ["むす","蒸す"],["あげる","揚げる"],["ゆでる","茹でる"],["きざむ","刻む"],
+  ["つつむ","包む"],["そそぐ","注ぐ"],["ひやす","冷やす"],["あたためる","温める"],
+  ["あまい","甘い"],["からい","辛い"],["にがい","苦い"],["すっぱい","酸っぱい"],
+  ["まるい","丸い"],["しかくい","四角い"],["ほそい","細い"],["ふとい","太い"],
+  ["あつい","厚い"],["うすい","薄い"],["おもい","重い"],["かるい","軽い"],
+  ["ふかい","深い"],["あさい","浅い"],["あかるい","明るい"],["くらい","暗い"],
+  ["しずか","静か"],["にぎやか","賑やか"],["ていねい","丁寧"],["しんせつ","親切"],
+  ["まじめ","真面目"],["ゆかい","愉快"],["すなお","素直"],["そら","空"],
+  ["くも","雲"],["あめ","雨"],["はれ","晴れ"],["くもり","曇り"],
+  ["だいち","大地"],["こうげん","高原"],["ぼんち","盆地"],["さんみゃく","山脈"],
+  ["かいがん","海岸"],["すなはま","砂浜"],["がけ","崖"],["どうくつ","洞窟"],
+  ["みさき","岬"],["はんとう","半島"],["しょとう","諸島"],["かいきょう","海峡"],
+  ["うんが","運河"],["きし","岸"],["おあしす","オアシス"],["さばんな","サバンナ"],
+  ["おーろら","オーロラ"],["りょかん","旅館"],["おんせんがい","温泉街"],["おみやげ","お土産"],
+  ["きねんしゃしん","記念写真"],["ちず","地図"],["ぱすぽーと","パスポート"],["じこくひょう","時刻表"],
+  ["まどぐち","窓口"],["てにもつ","手荷物"],["りょこうかばん","旅行鞄"],["だいだいいろ","橙色"],
+  ["みどりいろ","緑色"],["きいろ","黄色"],["ももいろ","桃色"],["みずいろ","水色"],
+  ["はいいろ","灰色"],["ちゃいろ","茶色"],["こんいろ","紺色"],["ぎんいろ","銀色"],
+  ["きんいろ","金色"],["しろくろ","白黒"]
 ];
 const JP_SENTS = [
   ["おやゆびきーがつかいやすい","親指キーが使いやすい"],
