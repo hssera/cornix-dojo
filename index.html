@@ -344,6 +344,27 @@
   }
   #timebar.low i { background: var(--danger); }
 
+  /* リアルタイムのランクバー（スコアがC/B/A/Sのしきい値へ向かって埋まる） */
+  #rankbar { display: flex; align-items: center; gap: 10px; margin: 2px 0 22px; }
+  #rankbar .rb-now {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex: none;
+    font-family: var(--sans); font-size: 13px; font-weight: 700;
+    background: var(--sel-bg); color: var(--sel-fg);
+  }
+  #rankbar .rb-now.pop { animation: cd-pop .35s var(--ease); }
+  .rb-track { position: relative; flex: 1; height: 6px; border-radius: 3px; background: var(--line-soft); }
+  .rb-fill {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+    border-radius: 3px; transition: width .2s var(--ease);
+  }
+  .rb-mark { position: absolute; top: -3px; width: 1px; height: 12px; background: var(--faint); }
+  .rb-mark b {
+    position: absolute; top: 13px; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 10px; font-weight: 500; color: var(--muted);
+  }
+
   /* ---- typing area ---- */
   #wordMeta { min-height: 42px; color: var(--muted); font-size: 13.5px; margin-bottom: 8px; text-align: center; }
   #wordMeta .jp { font-size: 28px; color: var(--ink); font-weight: 700; letter-spacing: .06em; }
@@ -788,6 +809,16 @@
   </div>
   <div id="idleStats" hidden></div>
   <div id="timebar"><i></i></div>
+  <div id="rankbar" hidden>
+    <span class="rb-now" id="rbNow">D</span>
+    <div class="rb-track">
+      <i class="rb-fill" id="rbFill"></i>
+      <span class="rb-mark" style="left:25%"><b>C</b></span>
+      <span class="rb-mark" style="left:50%"><b>B</b></span>
+      <span class="rb-mark" style="left:75%"><b>A</b></span>
+      <span class="rb-mark" style="left:calc(100% - 1px)"><b>S</b></span>
+    </div>
+  </div>
   <div id="wordMeta"></div>
   <div id="typeline" class="mono"></div>
   <div id="hint"></div>
@@ -2369,6 +2400,7 @@ function updateIdleStats() {
 function showIdleHud() {
   $("statbar").hidden = true;
   $("timebar").hidden = true;
+  $("rankbar").hidden = true;
   $("idleStats").hidden = false;
   $("wordMeta").hidden = true;      // アイドル時は空行の場所取りをやめる
   $("hint").hidden = true;
@@ -2379,6 +2411,7 @@ function showIdleHud() {
 function showRunHud() {
   $("statbar").hidden = false;
   $("timebar").hidden = false;
+  $("rankbar").hidden = runSeconds === 0;   // フリー練習はスコア無しのため非表示
   $("idleStats").hidden = true;
   $("wordMeta").hidden = false;
   $("hint").hidden = false;
@@ -2472,6 +2505,7 @@ const engine = {
     $("stTime").classList.remove("low");
     $("stScore").textContent = 0; $("stComboLbl").textContent = "コンボ";
     $("stComboWrap").classList.remove("boost");
+    $("rbFill").style.width = "0%"; $("rbNow").textContent = "D";
     $("stWpm").textContent = 0; $("stAcc").textContent = "100%";
     $("stCombo").textContent = 0; $("stMiss").textContent = 0;
     $("wordMeta").textContent = ""; $("queue").textContent = ""; $("hint").innerHTML = "";
@@ -2856,6 +2890,18 @@ const engine = {
     const m = comboMult(this.combo);
     $("stComboLbl").textContent = m > 1 ? "コンボ ×" + m.toFixed(1) : "コンボ";
     $("stComboWrap").classList.toggle("boost", m > 1);
+    if (this.running && !this.infinite) {
+      // ランクバー: S しきい値（12000×時間スケール）に向かって埋まる
+      const sMax = 12000 * (runSeconds / 60);
+      $("rbFill").style.width = Math.min(100, this.score / sMax * 100).toFixed(1) + "%";
+      const r = this.score >= sMax ? "S" : this.score >= sMax * .75 ? "A"
+              : this.score >= sMax * .5 ? "B" : this.score >= sMax * .25 ? "C" : "D";
+      const el = $("rbNow");
+      if (el.textContent !== r) {
+        el.textContent = r;
+        el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
+      }
+    }
   }
 };
 
